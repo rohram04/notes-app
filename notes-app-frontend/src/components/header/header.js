@@ -18,24 +18,6 @@ export function Header(props) {
   const classes = useStyles();
   const { user, demo } = props;
   return (
-    // <Grid container className={classes.root}>
-    //   <Grid item xs={12} md={10}>
-    //     <Button onClick={handleClick}>Username</Button>
-    //     <Menu
-    //       anchorEl={anchorEl}
-    //       open={Boolean(anchorEl)}
-    //       onClose={handleClose}
-    //       keepMounted
-    //     >
-    //       <MenuItem onClick={() => console.log("logout")}>logout</MenuItem>
-    //     </Menu>
-    //   </Grid>
-    //   <Grid item md={2}>
-    //     <Typography className={classes.date} variant="h4" gutterBottom>
-    //       Date
-    //     </Typography>
-    //   </Grid>
-    // </Grid>
     <AppBar color="secondary" position="static" className={classes.root}>
       <Toolbar>
         <Typography variant="h6" style={{ "flex-grow": "1" }}>
