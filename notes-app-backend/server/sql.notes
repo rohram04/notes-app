@@ -1,0 +1,14 @@
+== SQL SERVER STRUCTURE ==
+
+- Users Table
+    - userID *int PRIMARY KEY AUTOINCREMENT*
+    - Email *TEXT*
+
+- Notes Table
+    - noteID *int PRIMARY KEY AUTOINCREMENT*
+    - userID *int FOREIGN KEY - references Users*
+    - title *TEXT*
+    - subheader *TEXT*
+    - body *TEXT*
+    - starred *BOOL*
+    - lastSaved *TEXT - datetime*

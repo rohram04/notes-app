@@ -1,0 +1,120 @@
+.container {
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.note-preview-title-row {
+  width: 100%;
+  display: flex;
+}
+
+.note-preview-title-row .note-preview-title {
+  flex: 1;
+  margin: auto;
+}
+
+.root {
+  flex-grow: 1;
+  height: 100%;
+  max-height: inherit;
+  grid-row-start: 2;
+  grid-column-start: 1;
+}
+
+.NoteEditor {
+  flex-grow: 1;
+  max-height: inherit;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  margin: 1%;
+}
+
+@media (max-width: 959px) {
+  .NoteEditor {
+    height: inherit;
+    box-shadow: unset !important;
+  }
+}
+
+@media (min-width: 960px) {
+  .NoteEditor {
+    border-radius: 2em !important;
+  }
+}
+
+.NotesFields {
+  display: flex;
+  min-width: 0;
+  max-height: inherit;
+  min-height: 0;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 5% 5% 0% 5%;
+}
+
+.noteslist.paper {
+  padding: 7%;
+  border-radius: 2rem;
+}
+
+button.button {
+  padding: 1%;
+  margin-top: 2%;
+  border-radius: 2rem;
+  z-index: 1000;
+  grid-row-start: 2;
+  grid-column-start: 1;
+  height: 3rem;
+  align-self: end;
+  justify-self: right;
+  width: max-content;
+}
+
+.TextField {
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.TextField::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.resizeTitle {
+  font-size: 2.5rem !important;
+}
+
+.resizeSubheader {
+  font-size: 1.5rem !important;
+}
+
+.noteAction {
+  padding: 0 1% 1% 1%;
+}
+
+.noteAction .save-button {
+  float: right;
+}
+
+/* *::webkit-scrollbar {
+  width: 20px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 1rem;
+  border: 6px solid transparent;
+  background-clip: content-box;
+} */
