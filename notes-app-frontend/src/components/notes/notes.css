@@ -140,6 +140,10 @@ button.button {
   height: 1px;
 }
 
+.MuiSvgIcon-root.MuiSvgIcon-fontSizeLarge {
+  font-size: 3.125rem;
+}
+
 /* *::webkit-scrollbar {
   width: 20px;
 }

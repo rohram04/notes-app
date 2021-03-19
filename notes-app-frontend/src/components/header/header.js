@@ -1,24 +1,14 @@
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import useLogout from "../logout";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "min-content",
-  },
-  date: {
-    textAlign: "right",
-  },
-}));
+import "./header.css";
 
 export function Header(props) {
-  const classes = useStyles();
   const { user, demo } = props;
   return (
-    <AppBar color="secondary" position="static" className={classes.root}>
+    <AppBar color="secondary" position="static" className="appBar">
       <Toolbar>
-        <Typography variant="h6" style={{ "flex-grow": "1" }}>
+        <Typography variant="h6" className="typography">
           {user.name}
         </Typography>
         <LogoutButton demo={demo} />

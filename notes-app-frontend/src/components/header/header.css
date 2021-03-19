@@ -1,0 +1,7 @@
+.appBar {
+  height: min-content;
+}
+
+.typography {
+  flex-grow: 1;
+}

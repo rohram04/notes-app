@@ -1,32 +1,10 @@
 import { FormControl, Hidden, Paper, TextField } from "@material-ui/core";
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  ThemeProvider,
-} from "@material-ui/core/styles";
 import React, { useLayoutEffect, useState } from "react";
 import { Header } from "../../header/header";
-import ActionButtons from "./actionButtons";
 import "../notes.css";
+import ActionButtons from "./actionButtons";
 
 const axios = require("axios");
-
-let theme = createMuiTheme({
-  overrides: {
-    MuiSvgIcon: {
-      fontSizeLarge: {
-        fontSize: "3.125rem",
-      },
-    },
-  },
-  props: {
-    MuiButton: {
-      variant: "contained",
-    },
-  },
-});
-
-theme = responsiveFontSizes(theme);
 
 const NotesTextField = (props) => {
   return (
@@ -87,39 +65,37 @@ function NoteEditor(props) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Paper id={note.noteid} elevation={6} className="NoteEditor container">
-        <div className="NotesFields">
-          <FormControl>
-            <NotesTextField
-              name="title"
-              placeholder="title"
-              inputpropsclasses="resizeTitle"
-              autoFocus={true}
-              value={note.title}
-              onChange={notesTextFieldChange}
-            />
-          </FormControl>
-          <FormControl>
-            <NotesTextField
-              name="subheader"
-              placeholder="subheader"
-              inputpropsclasses="resizeSubheader"
-              value={note.subheader}
-              onChange={notesTextFieldChange}
-            />
-          </FormControl>
+    <Paper id={note.noteid} elevation={6} className="NoteEditor container">
+      <div className="NotesFields">
+        <FormControl>
           <NotesTextField
-            multiline
-            name="body"
-            placeholder="body"
-            value={note.body}
+            name="title"
+            placeholder="title"
+            inputpropsclasses="resizeTitle"
+            autoFocus={true}
+            value={note.title}
             onChange={notesTextFieldChange}
           />
-        </div>
-        <ActionButtons action={saveNote} />
-      </Paper>
-    </ThemeProvider>
+        </FormControl>
+        <FormControl>
+          <NotesTextField
+            name="subheader"
+            placeholder="subheader"
+            inputpropsclasses="resizeSubheader"
+            value={note.subheader}
+            onChange={notesTextFieldChange}
+          />
+        </FormControl>
+        <NotesTextField
+          multiline
+          name="body"
+          placeholder="body"
+          value={note.body}
+          onChange={notesTextFieldChange}
+        />
+      </div>
+      <ActionButtons action={saveNote} />
+    </Paper>
   );
 }
 

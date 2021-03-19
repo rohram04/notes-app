@@ -8,8 +8,9 @@ import "./App.css";
 export default function App() {
   const height = use100vh();
 
+  // unavoidable use of inline styling
   return (
-    <div style={{ height: height, "max-height": height }}>
+    <div style={{ height: height, maxHeight: height }}>
       <Switch>
         <Route path="/notes">
           <Notes />
