@@ -74,6 +74,7 @@ app
     const result = await notes.fetch(
       req.query.userid,
       req.query.offset ?? 0,
+      req.query.limit ?? 20,
       req.query.noteid ?? null
     );
     let status;

@@ -74,14 +74,14 @@ exports.update = async ({
   }
 };
 
-exports.fetch = async (userid, offset = 0, noteid = null) => {
+exports.fetch = async (userid, offset = 0, limit = 20, noteid = null) => {
   if (noteid !== null) return await fetchSingle(userid, noteid);
   const db = await pool.connect();
   try {
     const notes = (
       await db.query(
-        `SELECT noteid, title, subheader, body FROM Notes WHERE userid = $1 LIMIT 20 OFFSET $2`,
-        [userid, parseInt(offset)]
+        `SELECT noteid, title, subheader, body FROM Notes WHERE userid = $1 LIMIT $2 OFFSET $3`,
+        [userid, limit, parseInt(offset)]
       )
     ).rows;
     return { success: true, notes };
