@@ -39,9 +39,9 @@ function useAxiosIntercepted() {
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
-    setInterceptors((prevState) => [...prevState, requestInterceptor]);
     setStatus(true);
     setUser(authenticatedUser);
+    return requestInterceptor;
   };
 
   const setupDemo = async () => {
@@ -53,9 +53,9 @@ function useAxiosIntercepted() {
       return config;
     });
     window.addEventListener("beforeunload", logout);
-    setInterceptors((prevState) => [...prevState, requestInterceptor]);
     setStatus(true);
     setUser({ name: "DEMO" });
+    return requestInterceptor;
   };
 
   useEffect(() => {
@@ -64,11 +64,13 @@ function useAxiosIntercepted() {
       (error) => handleError
     );
 
-    setInterceptors([responseInterceptor]);
+    let requestInterceptor;
 
-    if (demo) setupDemo();
+    if (demo) requestInterceptor = setupDemo();
     else if (!isAuthenticated) return;
-    else getAccessToken();
+    else requestInterceptor = getAccessToken();
+
+    setInterceptors([responseInterceptor, requestInterceptor]);
 
     return () => {
       if (demo) {
