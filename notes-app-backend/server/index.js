@@ -65,6 +65,8 @@ app
     res.send(result);
   })
   .delete(async (req, res) => {
+    if (isNaN(req.query.noteid))
+      return res.status(400).send({ message: "Invalid noteid field" });
     const result = await notes.delete(req.query.noteid);
     res.status(result.success ? 204 : 500).send();
   })
