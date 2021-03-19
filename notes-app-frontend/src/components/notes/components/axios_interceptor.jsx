@@ -14,6 +14,7 @@ function useAxiosIntercepted() {
     user: authenticatedUser,
     isAuthenticated,
     isLoading,
+    logout: logoutAuth0,
   } = useAuth0();
   const [interceptors, setInterceptors] = useState([]);
   const [status, setStatus] = useState(false);
@@ -43,10 +44,9 @@ function useAxiosIntercepted() {
         return response;
       },
       function (error) {
-        console.log("hello");
-        console.log(error);
-        if (!error.response.status === 401) return;
-        logout({ returnTo: window.location.origin });
+        alert("An error occurred. Please try again later.");
+        if (error.response.status === 401)
+          logoutAuth0({ returnTo: window.location.origin });
       }
     );
     setInterceptors([responseInterceptor, requestInterceptor]);
