@@ -6,7 +6,7 @@ import "./header.css";
 export function Header(props) {
   const { user, demo } = props;
   return (
-    <AppBar color="secondary" position="static" className="appBar">
+    <AppBar position="static" className="appBar">
       <Toolbar>
         <Typography variant="h6" className="typography">
           {user.name}

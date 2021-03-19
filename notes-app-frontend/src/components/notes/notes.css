@@ -36,6 +36,10 @@
   margin: 1%;
 }
 
+.NoteEditor.skeleton {
+  transform: scale(1, 0.9);
+}
+
 @media (max-width: 959px) {
   .NoteEditor {
     height: inherit;
@@ -70,6 +74,7 @@ button.button {
   align-self: end;
   justify-self: right;
   width: max-content;
+  background: var(--secondary);
 }
 
 .TextField {
@@ -142,6 +147,20 @@ button.button {
 
 .MuiSvgIcon-root.MuiSvgIcon-fontSizeLarge {
   font-size: 3.125rem;
+}
+
+.loaderContainer {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  text-align: center;
+  /* display: grid; */
+  justify-content: center;
+}
+
+.loader {
+  width: 49%;
+  border-radius: 1rem;
 }
 
 /* *::webkit-scrollbar {

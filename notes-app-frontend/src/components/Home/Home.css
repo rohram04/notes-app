@@ -1,6 +1,7 @@
 .home {
   height: inherit;
-  background: linear-gradient(45deg, #ff1aa3 15%, #fc6767 85%);
+  /* background: linear-gradient(45deg, #ff1aa3 15%, #fc6767 85%); */
+  background: var(--secondary);
   display: flex;
   flex-direction: column;
   justify-content: center;

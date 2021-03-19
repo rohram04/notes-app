@@ -1,5 +1,6 @@
 .appBar {
   height: min-content;
+  background: var(--secondary);
 }
 
 .typography {
