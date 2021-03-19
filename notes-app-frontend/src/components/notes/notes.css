@@ -59,11 +59,6 @@
   padding: 5% 5% 0% 5%;
 }
 
-.noteslist.paper {
-  padding: 7%;
-  border-radius: 2rem;
-}
-
 button.button {
   padding: 1%;
   margin-top: 2%;
@@ -128,6 +123,8 @@ button.button {
 .notesList .container .note {
   grid-row: auto;
   grid-column: auto;
+  padding: 7%;
+  border-radius: 2rem;
 }
 
 .notesRoot {
@@ -136,6 +133,11 @@ button.button {
   height: inherit;
   display: flex;
   flex-direction: column;
+}
+
+.waypoint {
+  grid-column: 1 / -1;
+  height: 1px;
 }
 
 /* *::webkit-scrollbar {
