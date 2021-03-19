@@ -99,6 +99,7 @@ const debounce = (func, time) => {
 };
 
 const getCellCount = (grid) => {
+  if (grid === undefined || grid === null) return 20;
   const gridComputedStyle = window.getComputedStyle(grid);
 
   const gridHeight = parseInt(

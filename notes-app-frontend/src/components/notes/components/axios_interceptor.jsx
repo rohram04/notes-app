@@ -25,6 +25,11 @@ function useAxiosIntercepted() {
     logout(demo);
   };
 
+  const responseInterceptor = axios.interceptors.response.use(
+    (response) => response,
+    (error) => handleError
+  );
+
   const getAccessToken = async () => {
     const token = await getAccessTokenSilently();
     const response = await axios.get("/api/userid", {
@@ -39,6 +44,7 @@ function useAxiosIntercepted() {
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
+    setInterceptors([responseInterceptor, requestInterceptor]);
     setStatus(true);
     setUser(authenticatedUser);
     return requestInterceptor;
@@ -53,31 +59,22 @@ function useAxiosIntercepted() {
       return config;
     });
     window.addEventListener("beforeunload", logout);
+    setInterceptors([responseInterceptor, requestInterceptor]);
     setStatus(true);
     setUser({ name: "DEMO" });
-    return requestInterceptor;
   };
 
   useEffect(() => {
-    const responseInterceptor = axios.interceptors.response.use(
-      (response) => response,
-      (error) => handleError
-    );
-
-    let requestInterceptor;
-
-    if (demo) requestInterceptor = setupDemo();
+    if (demo) setupDemo();
     else if (!isAuthenticated) return;
-    else requestInterceptor = getAccessToken();
-
-    setInterceptors([responseInterceptor, requestInterceptor]);
+    else getAccessToken();
 
     return () => {
       if (demo) {
         window.removeEventListener("beforeunload", logout);
       }
     };
-  }, [isAuthenticated]);
+  }, [isAuthenticated, demo]);
 
   useEffect(() => {
     return () => {
