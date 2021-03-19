@@ -1,8 +1,9 @@
+import { LinearProgress } from "@material-ui/core";
 import React, { useState } from "react";
 import useAxiosIntercepted from "./components/axios_interceptor";
-import "./notes.css";
 import NoteEditView from "./components/noteEditor";
 import NoteList from "./components/noteList";
+import "./notes.css";
 
 export default function Notes(props) {
   const [noteViewOpen, setNoteViewOpen] = useState(false);
@@ -20,7 +21,13 @@ export default function Notes(props) {
     setnoteid(null);
   };
 
-  if (!status) return <div>...loading</div>; //TODO: Change to real loader
+  if (!status) {
+    return (
+      <div className="loaderContainer">
+        <LinearProgress className="loader" color="secondary" />
+      </div>
+    );
+  }
 
   return (
     <div className="notesRoot">

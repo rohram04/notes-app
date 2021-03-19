@@ -23,6 +23,7 @@ const NotesTextField = (props) => {
 function NoteEditor(props) {
   const { closeNote, noteid = null } = props;
 
+  const [fetchStatus, setFetchStatus] = useState("pending");
   const [note, setNote] = useState({
     noteid: noteid,
     title: "",
@@ -31,13 +32,14 @@ function NoteEditor(props) {
   });
 
   useLayoutEffect(() => {
-    if (note.noteid === null) return;
+    if (note.noteid === null) return setFetchStatus("complete");
     axios
       .get("/api/notes", {
         params: { noteid: note.noteid },
       })
       .then((result) => {
         setNote(result.data.notes[0]);
+        setFetchStatus("complete");
       });
   }, []);
 
@@ -59,6 +61,12 @@ function NoteEditor(props) {
       });
     }
   };
+
+  if (fetchStatus === "pending")
+    return (
+      // <Skeleton className="NoteEditor container skeleton" variant="text" />
+      <div />
+    );
 
   return (
     <Paper id={note.noteid} elevation={6} className="NoteEditor container">
