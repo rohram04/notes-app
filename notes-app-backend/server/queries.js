@@ -1,11 +1,6 @@
-// const fs = require("fs");
-// const Database = require("better-sqlite3");
-
-// const db = new Database("", { verbose: console.log });
-
-// const schema = fs.readFileSync("./server/notes_structure.sql", "utf8");
-// db.exec(schema);
 const { Pool } = require("pg");
+
+//REVIEW: Maybe environment variable as json and then parse
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -64,10 +59,12 @@ exports.update = async ({
   try {
     const updateNoteSql = (
       await db.query(
-        `UPDATE NOTES SET title = $1, subheader = $2, body = $3 WHERE noteid = $4`,
+        `UPDATE NOTES SET title = $1, subheader = $2, body = $3 WHERE noteid = $4 RETURNING *`,
         [title, subheader, body, noteid]
       )
     ).rows;
+    if (updateNoteSql.length === 0)
+      throw { message: "resource does not exist" };
     return { success: true };
   } catch (err) {
     console.error(err.message);
@@ -78,20 +75,35 @@ exports.update = async ({
 };
 
 exports.fetch = async (userid, offset = 0, noteid = null) => {
+  if (noteid !== null) return await fetchSingle(userid, noteid);
   const db = await pool.connect();
   try {
-    let args = [userid, parseInt(offset)];
-    let query = `SELECT noteid, title, subheader, body FROM Notes WHERE userid = $1`;
-    if (noteid !== null) {
-      query += ` AND noteid = $3`;
-      args.push(noteid);
-    }
-    query += ` LIMIT 20 OFFSET $2`;
-    console.log("GETTINGNOTES", args);
-    const notes = (await db.query(query, args)).rows;
-    console.log("GETTINGNOTES2");
-    console.log(notes);
+    const notes = (
+      await db.query(
+        `SELECT noteid, title, subheader, body FROM Notes WHERE userid = $1 LIMIT 20 OFFSET $2`,
+        [userid, parseInt(offset)]
+      )
+    ).rows;
     return { success: true, notes };
+  } catch (err) {
+    console.error(err);
+    return { success: false, message: err.message };
+  } finally {
+    db.release();
+  }
+};
+
+const fetchSingle = async (userid, noteid) => {
+  const db = await pool.connect();
+  try {
+    const note = (
+      await db.query(
+        "SELECT noteid, title, subheader, body FROM Notes WHERE userid=$1 AND noteid=$2",
+        [userid, noteid]
+      )
+    ).rows;
+    if (note.length === 0) throw { message: "resource not found" };
+    return { success: true, notes: note };
   } catch (err) {
     console.error(err);
     return { success: false, message: err.message };
@@ -108,11 +120,7 @@ const newUser = async (userEmail) => {
         userEmail,
       ])
     ).rows[0];
-    // const user = db
-    //   .query(`SELECT * FROM Users WHERE Email = $userEmail`)
-    //   .get({ userEmail });
-    console.log("NEWUSER", user);
-    return { success: true, user };
+    return { success: true, userid: user.userid };
   } catch (err) {
     console.error(err);
     return { success: false, message: err.message };
@@ -121,23 +129,14 @@ const newUser = async (userEmail) => {
   }
 };
 
-// exports.newDemoUser = async (demoID) => {
-//   try {
-// const db = await pool.connect();
-//     db.query(`INSERT INTO Users(Email) VALUES($demoID)`).run({
-//       demoID,
-//     });
-//     return { success: true };
-//   } catch (err) {
-//     console.error(err);
-//     return { success: false, message: err.message };
-//   }
-// };
-
 exports.clearDemoUser = async (userid) => {
   const db = await pool.connect();
   try {
-    await db.query(`DELETE FROM Users WHERE userid=$1`, [userid]);
+    const users = (
+      await db.query(`DELETE FROM Users WHERE userid=$1 RETURNING *`, [userid])
+    ).rows;
+    console.log(users);
+    if (users.length === 0) throw { message: "resource not found" };
     return { success: true };
   } catch (err) {
     console.error(err);
@@ -147,14 +146,13 @@ exports.clearDemoUser = async (userid) => {
   }
 };
 
-exports.getUser = async (userEmail) => {
+exports.getUserid = async (userEmail) => {
   const db = await pool.connect();
   try {
     const user = (
-      await db.query(`SELECT * FROM Users WHERE Email = $1`, [userEmail])
+      await db.query(`SELECT userid FROM Users WHERE Email = $1`, [userEmail])
     ).rows[0];
-    console.log("USER", user);
-    if (user !== undefined) return { success: true, user };
+    if (user !== undefined) return { success: true, userid: user.userid };
     return await newUser(userEmail);
   } catch (err) {
     console.error(err.message);
