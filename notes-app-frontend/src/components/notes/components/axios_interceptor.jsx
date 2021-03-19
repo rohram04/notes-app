@@ -1,28 +1,29 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
+import useLogout from "../../logout";
 // import Axios from "axios";
 const axios = require("axios");
 axios.defaults.baseURL = process.env.REACT_APP_AXIOS_BASE_URL;
-// const axios = Axios.create({
-//   timeout: 10000,
-//   params: {}, // do not remove this, its added to add params later in the config
-// });
 
 function useAxiosIntercepted() {
+  const [interceptors, setInterceptors] = useState([]);
+  const [status, setStatus] = useState(false);
+  const [user, setUser] = useState({});
+
+  const logout = useLogout();
   const {
     getAccessTokenSilently,
     user: authenticatedUser,
     isAuthenticated,
     isLoading,
-    logout: logoutAuth0,
   } = useAuth0();
-  const [interceptors, setInterceptors] = useState([]);
-  const [status, setStatus] = useState(false);
-  const [user, setUser] = useState({});
 
   const demo = !isAuthenticated && !isLoading;
 
-  const logout = () => axios.delete("/api/demoID");
+  const handleError = () => {
+    alert("An error occurred. Please try again later.");
+    logout(demo);
+  };
 
   const getAccessToken = async () => {
     const token = await getAccessTokenSilently();
@@ -38,17 +39,7 @@ function useAxiosIntercepted() {
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
-    const responseInterceptor = axios.interceptors.response.use(
-      function (response) {
-        return response;
-      },
-      function (error) {
-        alert("An error occurred. Please try again later.");
-        if (error.response.status === 401)
-          logoutAuth0({ returnTo: window.location.origin });
-      }
-    );
-    setInterceptors([responseInterceptor, requestInterceptor]);
+    setInterceptors((prevState) => [...prevState, requestInterceptor]);
     setStatus(true);
     setUser(authenticatedUser);
   };
@@ -62,12 +53,19 @@ function useAxiosIntercepted() {
       return config;
     });
     window.addEventListener("beforeunload", logout);
-    setInterceptors([requestInterceptor]);
+    setInterceptors((prevState) => [...prevState, requestInterceptor]);
     setStatus(true);
     setUser({ name: "DEMO" });
   };
 
   useEffect(() => {
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => handleError
+    );
+
+    setInterceptors([responseInterceptor]);
+
     if (demo) setupDemo();
     else if (!isAuthenticated) return;
     else getAccessToken();

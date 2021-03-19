@@ -1,9 +1,7 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
 import React from "react";
+import useLogout from "../logout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,17 +29,11 @@ export function Header(props) {
 
 const LogoutButton = (props) => {
   const { demo } = props;
-  const { logout: authenticatedLogout } = useAuth0();
-  const history = useHistory();
 
-  const logout = () => {
-    if (!demo) return authenticatedLogout({ returnTo: window.location.origin });
-    axios.delete("/api/demoID");
-    history.push("/");
-  };
+  const logout = useLogout();
 
   return (
-    <Button onClick={() => logout()} color="inherit">
+    <Button onClick={() => logout(demo)} color="inherit">
       Logout
     </Button>
   );
