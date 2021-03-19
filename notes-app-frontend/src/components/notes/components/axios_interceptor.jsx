@@ -25,7 +25,6 @@ function useAxiosIntercepted() {
   const logout = () => axios.delete("/api/demoID");
 
   const getAccessToken = async () => {
-    alert(process.env.REACT_APP_AXIOS_BASE_URL);
     const token = await getAccessTokenSilently();
     const response = await axios.get("/api/userid", {
       params: { email: authenticatedUser.email },
