@@ -36,7 +36,8 @@ const checkJwt = jwt({
 app.use(cors());
 app.use(express.json());
 app.use("/api/notes", (req, res, next) => {
-  console.log("checking");
+  if (isNaN(req.query.userid))
+    return res.status(400).send({ message: "Invalid userid field" });
   if (!req.query.demo) return checkJwt(req, res, next);
   next();
 });
@@ -44,54 +45,67 @@ app.use("/api/notes", (req, res, next) => {
 app
   .route("/api/notes/")
   .post(async (req, res) => {
-    console.log(req.body);
     const result = await notes.create(req.query.userid, {
       title: req.body.title,
       subheader: req.body.subheader,
       body: req.body.body,
       lastSaved: new Date().toUTCString(),
     });
+    res.status(result.success ? 201 : 500);
     res.send(result);
   })
   .put(async (req, res) => {
-    console.log("putting", req.body);
     const result = await notes.update(req.body);
+    let status;
+    if (!result.success && result.message === "resource does not exist")
+      status = 404;
+    else if (!result.success) status = 500;
+    else status = 200;
+    res.status(status);
     res.send(result);
   })
   .delete(async (req, res) => {
-    console.log("req", req.query.noteid);
     const result = await notes.delete(req.query.noteid);
-    res.send(result);
+    res.status(result.success ? 204 : 500).send();
   })
   .get(async (req, res) => {
-    console.log("\x1b[44m", `OFFSET ${req.query.offset}`, "\x1b[0m");
     const result = await notes.fetch(
       req.query.userid,
       req.query.offset ?? 0,
       req.query.noteid ?? null
     );
-    res.send(result);
+    let status;
+    if (!result.success && result.message === "resource not found")
+      status = 404;
+    else if (!result.success) status = 500;
+    else status = 200;
+    res.status(status).send(result);
   });
 
 app.get("/api/userid", checkJwt, async (req, res) => {
-  const userid = (await notes.getUser(req.query.email)).user.userid;
-  console.log(userid);
-  res.send(`${userid}`);
+  const result = await notes.getUserid(req.query.email);
+  res.status(result.success ? 200 : 500);
+  res.send(`${result.userid}`);
 });
 
-app.get("/api/demoID", async (req, res) => {
-  const demoID = `DEMO${nanoid()}`;
-  const userid = (await notes.getUser(demoID)).user.userid;
-  console.log(userid);
-  res.send(`${userid}`);
-});
-
-app.delete("/api/demoID", (req, res) => {
-  notes.clearDemoUser(req.query.userid);
-  console.log("DELETING USER", req.query.userid);
-  res.send("complete");
-});
+app
+  .route("/api/demoID")
+  .get(async (req, res) => {
+    const demoID = `DEMO${nanoid()}`;
+    const result = await notes.getUserid(demoID);
+    res.status(result.success ? 200 : 500);
+    res.send(`${result.userid}`);
+  })
+  .delete(async (req, res) => {
+    const result = await notes.clearDemoUser(req.query.userid);
+    let status;
+    if (!result.success && result.message === "resource not found")
+      status = 404;
+    else if (!result.success) status = 500;
+    else status = 204;
+    res.status(status).send();
+  });
 
 app.listen(port, () => {
-  console.log(`Notes App listening at http://localhost:${port}`);
+  console.log(`Notes App listening at http://localhost:${port} 🚀!`);
 });
