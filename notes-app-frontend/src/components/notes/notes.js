@@ -1,37 +1,10 @@
-import {
-  createMuiTheme,
-  createStyles,
-  responsiveFontSizes,
-  withStyles,
-} from "@material-ui/core/styles";
 import React, { useState } from "react";
 import useAxiosIntercepted from "./components/axios_interceptor";
 import "./notes.css";
 import NoteEditView from "./components/noteEditor";
 import NoteList from "./components/noteList";
 
-let theme = createMuiTheme({
-  overrides: {
-    MuiSvgIcon: {
-      fontSizeLarge: {
-        fontSize: "3.125rem",
-      },
-    },
-  },
-  props: {
-    MuiButton: {
-      variant: "contained",
-    },
-  },
-});
-
-theme = responsiveFontSizes(theme);
-
-const styles = (theme) => {
-  createStyles({});
-};
-
-function Notes(props) {
+export default function Notes(props) {
   const [noteViewOpen, setNoteViewOpen] = useState(false);
   const [noteid, setnoteid] = useState(null);
 
@@ -50,7 +23,7 @@ function Notes(props) {
   if (!status) return <div>...loading</div>; //TODO: Change to real loader
 
   return (
-    <React.Fragment>
+    <div className="notesRoot">
       {noteViewOpen ? (
         <NoteEditView
           demo={demo}
@@ -61,8 +34,6 @@ function Notes(props) {
       ) : (
         <NoteList demo={demo} user={user} openNote={openNote} />
       )}
-    </React.Fragment>
+    </div>
   );
 }
-
-export default withStyles(styles(theme))(Notes);

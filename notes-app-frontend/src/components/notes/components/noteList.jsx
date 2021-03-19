@@ -21,18 +21,9 @@ export default function NoteList(props) {
     axios
       .get("/api/notes", {
         params: { offset: currentOffset },
-        // headers: { Authorization: `Bearer ${props.accessToken}` },
       })
       .then(({ data }) => {
         console.log("data", data);
-        // for (let i = 0; i < 20; i++) {
-        //   data.notes.push({
-        //     noteid: "1",
-        //     title: "hello",
-        //     subheader: "hello",
-        //     body: "hello",
-        //   });
-        // }
         setNotesList([...currentNotesList, ...data.notes]);
         setOffset(currentOffset + data.notes.length);
       });
@@ -41,43 +32,13 @@ export default function NoteList(props) {
   return (
     <React.Fragment>
       <Header demo={props.demo} user={props.user} />
-      {/* <div
-          style={{
-            "max-height": "inherit",
-            display: "flex",
-            padding: "1%",
-          }}
-        > */}
-      <div
-        style={{
-          flexGrow: 1,
-          maxHeight: "inherit",
-          display: "grid",
-          gridTemplateRows: "min-content",
-          "min-height": "0",
-          padding: "1%",
-        }}
-      >
-        <div
-          className="container"
-          style={{
-            "max-height": "inherit",
-            display: "grid",
-            "grid-auto-rows": "250px",
-            "grid-template-columns": "repeat(auto-fill, minmax(250px, 1fr))",
-            "grid-gap": "1rem",
-            "grid-row-start": "2",
-            "grid-column-start": "1",
-            "overflow-y": "scroll",
-            padding: "1%",
-          }}
-        >
+      <div className="notesList">
+        <div className="container">
           {notesList.map((note) => (
             <Note
-              style={{ "grid-row": "auto", "grid-column": "auto" }}
               id={note.noteid}
               getNotes={getNotes}
-              classNames={props.classes}
+              classNames="note"
               note={note}
               onClick={() => props.openNote(note.noteid)}
               accessToken={props.accessToken}
