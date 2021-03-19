@@ -31,18 +31,14 @@ function NoteEditor(props) {
   });
 
   useLayoutEffect(() => {
-    const func = async () => {
-      if (note.noteid === null) return;
-      // const token = await getAccessTokenSilently();
-      axios
-        .get("/api/notes", {
-          params: { noteid: note.noteid },
-        })
-        .then((result) => {
-          setNote(result.data.notes[0]);
-        });
-    };
-    func();
+    if (note.noteid === null) return;
+    axios
+      .get("/api/notes", {
+        params: { noteid: note.noteid },
+      })
+      .then((result) => {
+        setNote(result.data.notes[0]);
+      });
   }, []);
 
   const notesTextFieldChange = (event) => {

@@ -64,12 +64,11 @@ export default function NoteList(props) {
         <div ref={grid} className="container">
           {notesList.notesList.map((note) => (
             <Note
+              key={note.noteid}
               id={note.noteid}
-              getNotes={getNotes}
-              className="note"
+              getnotes={getNotes}
               note={note}
               onClick={() => props.openNote(note.noteid)}
-              accessToken={props.accessToken}
             />
           ))}
           <Waypoint onEnter={lazyLoadNotes}>

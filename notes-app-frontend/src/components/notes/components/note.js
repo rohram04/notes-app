@@ -7,24 +7,25 @@ const axios = require("axios");
 
 export default function Note(props) {
   const [iconVisibility, setIconVisibility] = useState(false);
-  const { note, getNotes } = props;
+  const { note, getnotes } = props;
+
   const deleteNote = async (noteid) => {
     axios
       .delete("/api/notes", {
         params: { noteid },
       })
       .then((result) => {
-        getNotes(true);
+        getnotes(true);
       });
   };
 
   return (
     <Paper
       elevation={3}
-      className="noteslist paper"
+      className="note"
       onMouseEnter={() => setIconVisibility(true)}
       onMouseLeave={() => setIconVisibility(false)}
-      {...props}
+      onClick={props.onClick}
     >
       <div className="note-preview-title-row">
         <Typography variant="h5" className="note-preview-title">
