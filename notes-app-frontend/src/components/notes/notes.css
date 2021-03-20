@@ -83,6 +83,10 @@ button.button {
   background: var(--secondary);
 }
 
+button.icon.button {
+  background: unset;
+}
+
 .TextField {
   height: 100%;
   overflow-y: scroll;

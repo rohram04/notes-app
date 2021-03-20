@@ -29,14 +29,14 @@ export default function ActionButtons(props) {
       </Hidden>
       <Hidden mdUp>
         <IconButton
-          className="button"
+          className="icon button"
           color="secondary"
           onClick={() => props.action(false)}
         >
           <CancelIcon fontSize="large" />
         </IconButton>
         <IconButton
-          className="button save-button"
+          className="icon button save-button"
           color="secondary"
           onClick={() => props.action()}
         >
