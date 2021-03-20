@@ -49,17 +49,12 @@ function NoteEditor(props) {
 
   const saveNote = async (save = true) => {
     if (!save) return closeNote();
-    console.log("note", note);
-    if (note.noteid !== null) {
-      axios.put("/api/notes", note).then((result) => {
-        closeNote();
-      });
-    } else {
-      axios.post("/api/notes", note).then((result) => {
-        console.log("post note", note);
-        closeNote();
-      });
-    }
+    axios({
+      url: "/api/notes",
+      method: note.noteid === null ? "post" : "put",
+      data: note,
+    });
+    closeNote();
   };
 
   if (fetchStatus === "pending")
