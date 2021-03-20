@@ -9,13 +9,19 @@
 }
 
 .note-preview-title-row {
-  width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto min-content;
 }
 
 .note-preview-title-row .note-preview-title {
-  flex: 1;
-  margin: auto;
+  grid-row: 1;
+  margin-top: auto;
+  margin-bottom: auto;
+  overflow: hidden;
+}
+
+.note-preview-delete-icon {
+  grid-row: 1;
 }
 
 .root {
@@ -130,6 +136,14 @@ button.button {
   grid-column: auto;
   padding: 7%;
   border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.notesList .container .note :last-child {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  flex-grow: 1;
 }
 
 .notesRoot {

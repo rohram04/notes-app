@@ -34,7 +34,6 @@ export default function NoteList(props) {
   const getNotes = async (refresh = false) => {
     const { offsetIncrement, offset } = notesList;
     if (offset === -1 && !refresh) return;
-
     const newOffset = refresh ? 0 : offset;
     const currentNotesList = refresh ? [] : notesList.notesList;
     axios

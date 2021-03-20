@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Paper, IconButton, Typography } from "@material-ui/core";
-import "../notes.css";
+import { IconButton, Paper, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import React, { useState } from "react";
+import "../notes.css";
 
 const axios = require("axios");
 
@@ -43,7 +43,9 @@ export default function Note(props) {
           </IconButton>
         )}
       </div>
-      <div>{note.subheader}</div>
+      <div>
+        <div>{note.subheader}</div>
+      </div>
       <div>{note.body}</div>
     </Paper>
   );
