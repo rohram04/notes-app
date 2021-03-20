@@ -7,7 +7,9 @@ const Home = () => {
   return (
     <div className="home">
       <Typography variant="h1">Welcome To Notes</Typography>
-      <Typography variant="h2">by Rohith Ramanathan</Typography>
+      <Typography variant="h2" className="author">
+        by Rohith Ramanathan
+      </Typography>
       <div>
         <LoginButton />
         <SignupButton />
