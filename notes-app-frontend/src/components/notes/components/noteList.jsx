@@ -41,7 +41,7 @@ export default function NoteList(props) {
     const currentNotesList = refresh ? [] : notesList.notesList;
     axios
       .get("/api/notes", {
-        params: { offset, limit: offsetIncrement },
+        params: { offset: newOffset, limit: offsetIncrement },
       })
       .then(({ data }) => {
         console.log(data.notes, offsetIncrement);
