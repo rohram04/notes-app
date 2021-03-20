@@ -52,7 +52,6 @@ export default function NoteList(props) {
   };
 
   const lazyLoadNotes = ({ previousPosition, currentPosition, event }) => {
-    if (previousPosition === "inside") return;
     getNotes();
   };
 
