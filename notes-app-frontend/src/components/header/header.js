@@ -20,7 +20,7 @@ export function Header(props) {
 const LogoutButton = (props) => {
   const { demo } = props;
 
-  const logout = useLogout();
+  const logout = useLogout(demo);
 
   return (
     <Button onClick={() => logout(demo)} color="inherit">
