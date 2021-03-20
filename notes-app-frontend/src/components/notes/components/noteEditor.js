@@ -53,8 +53,7 @@ function NoteEditor(props) {
       url: "/api/notes",
       method: note.noteid === null ? "post" : "put",
       data: note,
-    });
-    closeNote();
+    }).then((response) => closeNote());
   };
 
   if (fetchStatus === "pending")
