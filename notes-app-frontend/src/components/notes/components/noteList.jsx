@@ -17,12 +17,15 @@ export default function NoteList(props) {
   const grid = useRef(null);
 
   useEffect(() => {
-    getCellCount(grid.current);
-
     const handleResize = () => {
       const cellCount = getCellCount(grid.current);
-      setNotesList((prevState) => ({ ...prevState, increment: cellCount }));
+      setNotesList((prevState) => ({
+        ...prevState,
+        offsetIncrement: cellCount * 2,
+      }));
     };
+
+    handleResize();
 
     window.addEventListener("resize", debounce(handleResize, 250));
     return () => {
@@ -41,10 +44,12 @@ export default function NoteList(props) {
         params: { offset, limit: offsetIncrement },
       })
       .then(({ data }) => {
+        console.log(data.notes, offsetIncrement);
         setNotesList((prevState) => ({
+          ...prevState,
           notesList: [...currentNotesList, ...data.notes],
-          current:
-            data.notes.length < prevState.increment
+          offset:
+            data.notes.length < offsetIncrement
               ? -1
               : newOffset + data.notes.length,
         }));
