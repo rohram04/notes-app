@@ -121,6 +121,7 @@ button.icon.button {
   grid-template-rows: min-content;
   min-height: 0;
   padding: 1%;
+  height: inherit;
 }
 
 .notesList .container {
