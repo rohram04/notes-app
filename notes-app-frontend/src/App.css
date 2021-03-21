@@ -1,0 +1,5 @@
+@media (display-mode: standalone) {
+  .div100vh {
+    height: 100%;
+  }
+}

@@ -17,7 +17,7 @@ export default function App() {
   // unavoidable use of inline styling
   return (
     <ThemeProvider theme={theme}>
-      <Div100vh>
+      <Div100vh className="div100vh">
         <Switch>
           <Route path="/notes">
             <Notes />
