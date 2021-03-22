@@ -1,5 +1,14 @@
-import { FormControl, Hidden, Paper, TextField } from "@material-ui/core";
-import React, { useLayoutEffect, useState } from "react";
+import {
+  FormControl,
+  Hidden,
+  Paper,
+  TextField,
+  Dialog,
+  useMediaQuery,
+  DialogActions,
+} from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
+import React, { useLayoutEffect, useEffect, useState } from "react";
 import { Header } from "../../header/header";
 import "../notes.css";
 import ActionButtons from "./actionButtons";
@@ -21,89 +30,111 @@ const NotesTextField = (props) => {
 };
 
 function NoteEditor(props) {
-  const { closeNote, noteid = null } = props;
+  const { closeNote, noteid = null, open } = props;
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [fetchStatus, setFetchStatus] = useState("pending");
   const [note, setNote] = useState({
-    noteid: noteid,
+    noteid: null,
     title: "",
     subheader: "",
     body: "",
   });
 
   useLayoutEffect(() => {
-    if (note.noteid === null) return setFetchStatus("complete");
-    axios
-      .get("/api/notes", {
-        params: { noteid: note.noteid },
-      })
-      .then((result) => {
-        setNote(result.data.notes[0]);
-        setFetchStatus("complete");
+    if (noteid === null) {
+      setFetchStatus("complete");
+    } else {
+      axios
+        .get("/api/notes", {
+          params: { noteid: noteid },
+        })
+        .then((result) => {
+          setNote(result.data.notes[0]);
+          setFetchStatus("complete");
+        });
+    }
+    return () => {
+      setNote({
+        noteid: null,
+        title: "",
+        subheader: "",
+        body: "",
       });
-  }, []);
+    };
+  }, [open]);
 
   const notesTextFieldChange = (event) => {
     setNote((note) => ({ ...note, [event.target.name]: event.target.value }));
   };
 
   const saveNote = async (save = true) => {
-    if (!save) return closeNote();
-    axios({
-      url: "/api/notes",
-      method: note.noteid === null ? "post" : "put",
-      data: note,
-    }).then((response) => closeNote());
+    if (save) {
+      await axios({
+        url: "/api/notes",
+        method: note.noteid === null ? "post" : "put",
+        data: note,
+      });
+    }
+    setFetchStatus("pending");
+    closeNote();
   };
 
-  if (fetchStatus === "pending")
-    return (
-      // <Skeleton className="NoteEditor container skeleton" variant="text" />
-      <div />
-    );
-
   return (
-    <Paper id={note.noteid} elevation={6} className="NoteEditor container">
-      <div className="NotesFields">
-        <FormControl>
-          <NotesTextField
-            name="title"
-            placeholder="title"
-            inputpropsclasses="resizeTitle"
-            autoFocus={true}
-            value={note.title}
-            onChange={notesTextFieldChange}
-          />
-        </FormControl>
-        <FormControl>
-          <NotesTextField
-            name="subheader"
-            placeholder="subheader"
-            inputpropsclasses="resizeSubheader"
-            value={note.subheader}
-            onChange={notesTextFieldChange}
-          />
-        </FormControl>
-        <NotesTextField
-          multiline
-          name="body"
-          placeholder="body"
-          value={note.body}
-          onChange={notesTextFieldChange}
-        />
-      </div>
-      <ActionButtons action={saveNote} />
-    </Paper>
+    <Dialog
+      fullWidth={true}
+      fullScreen={fullScreen}
+      maxWidth="lg"
+      open={props.open}
+      id={note.noteid}
+      className="NoteEditor container"
+      PaperProps={{
+        className: `dialog-paper ${!fullScreen && " border-radius"}`,
+      }}
+    >
+      {fetchStatus === "pending" ? (
+        <div />
+      ) : (
+        <React.Fragment>
+          <div className="NotesFields">
+            <FormControl>
+              <NotesTextField
+                name="title"
+                placeholder="title"
+                inputpropsclasses="resizeTitle"
+                autoFocus={true}
+                value={note.title}
+                onChange={notesTextFieldChange}
+              />
+            </FormControl>
+            <FormControl>
+              <NotesTextField
+                name="subheader"
+                placeholder="subheader"
+                inputpropsclasses="resizeSubheader"
+                value={note.subheader}
+                onChange={notesTextFieldChange}
+              />
+            </FormControl>
+            <NotesTextField
+              multiline
+              name="body"
+              placeholder="body"
+              value={note.body}
+              onChange={notesTextFieldChange}
+            />
+          </div>
+          <DialogActions className="noteAction">
+            <ActionButtons action={saveNote} />
+          </DialogActions>
+        </React.Fragment>
+      )}
+    </Dialog>
   );
 }
 
 export default function NoteEditView(props) {
-  return (
-    <React.Fragment>
-      <Hidden smDown>
-        <Header demo={props.demo} user={props.user} />
-      </Hidden>
-      <NoteEditor {...props} />
-    </React.Fragment>
-  );
+  return <NoteEditor {...props} />;
 }

@@ -6,43 +6,52 @@ import CancelIcon from "@material-ui/icons/Cancel";
 
 export default function ActionButtons(props) {
   return (
-    <div className="noteAction">
+    <React.Fragment>
       <Hidden smDown>
-        <Button
-          variant="contained"
-          className="button"
-          color="secondary"
-          icon={<CancelIcon />}
-          onClick={() => props.action(false)}
-        >
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          className="button save-button"
-          color="secondary"
-          startIcon={<CheckCircleIcon />}
-          onClick={() => props.action()}
-        >
-          Save and Close
-        </Button>
+        {/* TODO: Find better solution to using spans for aligning buttons */}
+        <span>
+          <Button
+            variant="contained"
+            className="button"
+            color="secondary"
+            icon={<CancelIcon />}
+            onClick={() => props.action(false)}
+          >
+            Back
+          </Button>
+        </span>
+        <span>
+          <Button
+            variant="contained"
+            className="button save-button"
+            color="secondary"
+            startIcon={<CheckCircleIcon />}
+            onClick={() => props.action()}
+          >
+            Save and Close
+          </Button>
+        </span>
       </Hidden>
       <Hidden mdUp>
-        <IconButton
-          className="icon button"
-          color="secondary"
-          onClick={() => props.action(false)}
-        >
-          <CancelIcon fontSize="large" />
-        </IconButton>
-        <IconButton
-          className="icon button save-button"
-          color="secondary"
-          onClick={() => props.action()}
-        >
-          <CheckCircleIcon fontSize="large" />
-        </IconButton>
+        <span>
+          <IconButton
+            className="icon button"
+            color="secondary"
+            onClick={() => props.action(false)}
+          >
+            <CancelIcon fontSize="large" />
+          </IconButton>
+        </span>
+        <span>
+          <IconButton
+            className="icon button save-button"
+            color="secondary"
+            onClick={() => props.action()}
+          >
+            <CheckCircleIcon fontSize="large" />
+          </IconButton>
+        </span>
       </Hidden>
-    </div>
+    </React.Fragment>
   );
 }

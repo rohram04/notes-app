@@ -7,18 +7,18 @@ import "./notes.css";
 
 export default function Notes(props) {
   const [noteViewOpen, setNoteViewOpen] = useState(false);
-  const [noteid, setnoteid] = useState(null);
+  const [noteid, setNoteid] = useState(null);
 
   const { status, user, demo } = useAxiosIntercepted();
 
   const openNote = (id = null) => {
-    setnoteid(id);
+    setNoteid(id);
     setNoteViewOpen(true);
   };
 
   const closeNote = () => {
+    setNoteid(null);
     setNoteViewOpen(false);
-    setnoteid(null);
   };
 
   if (!status) {
@@ -31,16 +31,19 @@ export default function Notes(props) {
 
   return (
     <div className="notesRoot">
-      {noteViewOpen ? (
-        <NoteEditView
-          demo={demo}
-          noteid={noteid}
-          closeNote={closeNote}
-          user={user}
-        />
-      ) : (
-        <NoteList demo={demo} user={user} openNote={openNote} />
-      )}
+      <NoteList
+        demo={demo}
+        user={user}
+        openNote={openNote}
+        noteViewOpen={noteViewOpen}
+      />
+      <NoteEditView
+        open={noteViewOpen}
+        demo={demo}
+        noteid={noteid}
+        closeNote={closeNote}
+        user={user}
+      />
     </div>
   );
 }

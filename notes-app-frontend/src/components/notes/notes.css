@@ -39,7 +39,6 @@
   flex-direction: column;
   min-width: 0;
   min-height: 0;
-  margin: 1%;
 }
 
 .NoteEditor.skeleton {
@@ -70,8 +69,6 @@
 }
 
 button.button {
-  padding: 1%;
-  margin-top: 2%;
   border-radius: 2rem;
   z-index: 1000;
   grid-row-start: 2;
@@ -106,12 +103,12 @@ button.icon.button {
   font-size: 1.5rem !important;
 }
 
-.noteAction {
-  padding: 0 1% 1% 1%;
-}
-
 .noteAction .save-button {
   float: right;
+}
+
+.noteAction * {
+  flex: 1;
 }
 
 .notesList {
@@ -180,6 +177,14 @@ button.icon.button {
 .loader {
   width: 49%;
   border-radius: 1rem;
+}
+
+.MuiDialog-paper.dialog-paper {
+  height: 100%;
+}
+
+.MuiDialog-paper.dialog-paper.border-radius {
+  border-radius: 2rem;
 }
 
 /* *::webkit-scrollbar {

@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import React, { useRef, useEffect, useState } from "react";
 import { Header } from "../../header/header";
@@ -10,7 +10,7 @@ const axios = require("axios");
 
 export default function NoteList(props) {
   const [notesList, setNotesList] = useState({
-    offsetIncrement: 20,
+    offsetIncrement: 0,
     offset: 0,
     notesList: [],
   });
@@ -33,9 +33,16 @@ export default function NoteList(props) {
     };
   }, [grid]);
 
+  useEffect(() => {
+    if (props.noteViewOpen) return;
+    getNotes(true);
+  }, [props.noteViewOpen]);
+
   //REVIEW: Function needs to be refactored - very hard to read
   const getNotes = async (refresh = false) => {
+    if (refresh) grid.current.scroll({ top: 0 });
     const { offsetIncrement, offset } = notesList;
+    console.log(offset, refresh);
     if (offset === -1 && !refresh) return;
     const newOffset = refresh ? 0 : offset;
     const currentNotesList = refresh ? [] : notesList.notesList;
@@ -56,10 +63,6 @@ export default function NoteList(props) {
       });
   };
 
-  const lazyLoadNotes = ({ previousPosition, currentPosition, event }) => {
-    getNotes();
-  };
-
   return (
     <React.Fragment>
       <Header demo={props.demo} user={props.user} />
@@ -74,8 +77,12 @@ export default function NoteList(props) {
               onClick={() => props.openNote(note.noteid)}
             />
           ))}
-          <Waypoint onEnter={lazyLoadNotes}>
-            <div className="waypoint"></div>
+          <Waypoint onEnter={() => getNotes()}>
+            <div className="waypoint">
+              {notesList.offset !== -1 && (
+                <CircularProgress color="secondary" />
+              )}
+            </div>
           </Waypoint>
         </div>
         <Button
