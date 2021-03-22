@@ -1,15 +1,13 @@
 import {
-  FormControl,
-  Hidden,
-  Paper,
-  TextField,
   Dialog,
-  useMediaQuery,
   DialogActions,
+  FormControl,
+  TextField,
+  useMediaQuery,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
-import React, { useLayoutEffect, useEffect, useState } from "react";
-import { Header } from "../../header/header";
+import React, { useLayoutEffect, useState } from "react";
+import { use100vh } from "react-div-100vh";
 import "../notes.css";
 import ActionButtons from "./actionButtons";
 
@@ -30,6 +28,7 @@ const NotesTextField = (props) => {
 };
 
 function NoteEditor(props) {
+  const height = use100vh();
   const { closeNote, noteid = null, open } = props;
 
   const theme = useTheme();
@@ -93,6 +92,7 @@ function NoteEditor(props) {
       PaperProps={{
         className: `dialog-paper ${!fullScreen && " border-radius"}`,
       }}
+      style={{ height: height }}
     >
       {fetchStatus === "pending" ? (
         <div />
