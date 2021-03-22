@@ -42,7 +42,6 @@ export default function NoteList(props) {
   const getNotes = async (refresh = false) => {
     if (refresh) grid.current.scroll({ top: 0 });
     const { offsetIncrement, offset } = notesList;
-    console.log(offset, refresh);
     if (offset === -1 && !refresh) return;
     const newOffset = refresh ? 0 : offset;
     const currentNotesList = refresh ? [] : notesList.notesList;
@@ -51,7 +50,6 @@ export default function NoteList(props) {
         params: { offset: newOffset, limit: offsetIncrement },
       })
       .then(({ data }) => {
-        console.log(data.notes, offsetIncrement);
         setNotesList((prevState) => ({
           ...prevState,
           notesList: [...currentNotesList, ...data.notes],
@@ -116,9 +114,11 @@ const getCellCount = (grid) => {
   );
   // get number of grid rows
 
-  const gridRowHeight = parseInt(
-    gridComputedStyle.getPropertyValue("grid-auto-rows").replace("px", "")
-  );
+  // const gridRowHeight = parseInt(
+  //   gridComputedStyle.getPropertyValue("grid-auto-rows").replace("px", "")
+  // );
+
+  const gridRowHeight = 250;
 
   const gridRowCount = Math.floor(gridHeight / gridRowHeight);
 

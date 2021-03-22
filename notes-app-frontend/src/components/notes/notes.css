@@ -124,7 +124,6 @@ button.icon.button {
 .notesList .container {
   max-height: inherit;
   display: grid;
-  grid-auto-rows: 250px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 1rem;
   grid-row-start: 2;
@@ -140,6 +139,7 @@ button.icon.button {
   border-radius: 2rem;
   display: flex;
   flex-direction: column;
+  height: 250px;
 }
 
 .notesList .container .note :last-child {
