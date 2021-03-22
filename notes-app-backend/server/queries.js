@@ -19,7 +19,7 @@ exports.create = async (userid, { title, subheader, body, lastSaved }) => {
     ).rows;
     return { success: true };
   } catch (err) {
-    console.error(err);
+    console.error(err, "22");
     return { success: false, message: err.message };
   } finally {
     db.release();
@@ -40,7 +40,7 @@ exports.delete = async (noteid, deletedDate) => {
     ).rows;
     return { success: true };
   } catch (err) {
-    console.error(err);
+    console.error(err, "43");
     return { success: false, message: err.message };
   } finally {
     db.release();
@@ -67,7 +67,7 @@ exports.update = async ({
       throw { message: "resource does not exist" };
     return { success: true };
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message, "70");
     return { success: false, message: err.message };
   } finally {
     db.release();
@@ -86,7 +86,7 @@ exports.fetch = async (userid, offset = 0, limit = 20, noteid = null) => {
     ).rows;
     return { success: true, notes };
   } catch (err) {
-    console.error(err);
+    console.error(err, "89");
     return { success: false, message: err.message };
   } finally {
     db.release();
@@ -105,7 +105,7 @@ const fetchSingle = async (userid, noteid) => {
     if (note.length === 0) throw { message: "resource not found" };
     return { success: true, notes: note };
   } catch (err) {
-    console.error(err);
+    console.error(err, "108");
     return { success: false, message: err.message };
   } finally {
     db.release();
@@ -122,7 +122,7 @@ const newUser = async (userEmail) => {
     ).rows[0];
     return { success: true, userid: user.userid };
   } catch (err) {
-    console.error(err);
+    console.error(err, "125");
     return { success: false, message: err.message };
   } finally {
     db.release();
@@ -135,11 +135,10 @@ exports.clearDemoUser = async (userid) => {
     const users = (
       await db.query(`DELETE FROM Users WHERE userid=$1 RETURNING *`, [userid])
     ).rows;
-    console.log(users);
     if (users.length === 0) throw { message: "resource not found" };
     return { success: true };
   } catch (err) {
-    console.error(err);
+    console.error(err, "142");
     return { success: false, message: err.message };
   } finally {
     db.release();
@@ -155,7 +154,7 @@ exports.getUserid = async (userEmail) => {
     if (user !== undefined) return { success: true, userid: user.userid };
     return await newUser(userEmail);
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message, "158");
     return { success: false, message: err.message };
   } finally {
     db.release();
