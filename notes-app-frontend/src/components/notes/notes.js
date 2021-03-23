@@ -6,19 +6,25 @@ import NoteList from "./components/noteList";
 import "./notes.css";
 
 export default function Notes(props) {
-  const [noteViewOpen, setNoteViewOpen] = useState(false);
-  const [noteid, setNoteid] = useState(null);
+  const [noteInfo, setNoteInfo] = useState({
+    noteid: null,
+    noteViewOpen: false,
+  });
 
   const { status, user, demo } = useAxiosIntercepted();
 
   const openNote = (id = null) => {
-    setNoteid(id);
-    setNoteViewOpen(true);
+    setNoteInfo({
+      noteid: id,
+      noteViewOpen: true,
+    });
   };
 
   const closeNote = () => {
-    setNoteid(null);
-    setNoteViewOpen(false);
+    setNoteInfo({
+      noteid: null,
+      noteViewOpen: false,
+    });
   };
 
   if (!status) {
@@ -35,12 +41,12 @@ export default function Notes(props) {
         demo={demo}
         user={user}
         openNote={openNote}
-        noteViewOpen={noteViewOpen}
+        noteViewOpen={noteInfo.noteViewOpen}
       />
       <NoteEditView
-        open={noteViewOpen}
+        open={noteInfo.noteViewOpen}
         demo={demo}
-        noteid={noteid}
+        noteid={noteInfo.noteid}
         closeNote={closeNote}
         user={user}
       />

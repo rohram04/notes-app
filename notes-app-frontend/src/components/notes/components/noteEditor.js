@@ -14,12 +14,14 @@ import ActionButtons from "./actionButtons";
 const axios = require("axios");
 
 const NotesTextField = (props) => {
+  const { inputpropsclasses } = props;
+
   return (
     <TextField
       fullWidth
       InputProps={{
         disableUnderline: true,
-        className: props.inputpropsclasses ?? "",
+        className: inputpropsclasses ?? "",
       }}
       {...props}
       className="TextField"
@@ -86,7 +88,7 @@ function NoteEditor(props) {
       fullWidth={true}
       fullScreen={fullScreen}
       maxWidth="lg"
-      open={props.open}
+      open={open}
       id={note.noteid}
       className="NoteEditor container"
       PaperProps={{
