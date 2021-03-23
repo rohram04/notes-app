@@ -1,7 +1,7 @@
 import { Button, CircularProgress } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import React, { useRef, useEffect, useState } from "react";
-import { Header } from "../../header/header";
+import { Header } from "../../header/Header";
 import Note from "./note";
 import "../notes.css";
 import { Waypoint } from "react-waypoint";

@@ -1,8 +1,8 @@
 import React from "react";
 import Div100vh from "react-div-100vh";
 import { Route, Switch } from "react-router-dom";
-import Home from "./components/Home/Home";
-import Notes from "./components/notes/notes";
+import Home from "./home/Home";
+import Notes from "./notes/notes";
 import "./App.css";
 import {
   ThemeProvider,

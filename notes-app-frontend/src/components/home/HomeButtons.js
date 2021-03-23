@@ -1,29 +1,8 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "@material-ui/core";
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Home.css";
-
-function isPwa() {
-  return ["fullscreen", "standalone", "minimal-ui"].some(
-    (displayMode) =>
-      window.matchMedia("(display-mode: " + displayMode + ")").matches
-  );
-}
-
-const useLoginAuth0 = () => {
-  const { loginWithPopup, loginWithRedirect } = useAuth0();
-  const history = useHistory();
-
-  const login = isPwa()
-    ? async (args = {}) => {
-        loginWithPopup(args);
-        history.push("/notes");
-      }
-    : (args = {}) => loginWithRedirect(args);
-
-  return login;
-};
+import useLoginAuth0 from "../authentication/loginAuth0";
 
 export const LoginButton = () => {
   const login = useLoginAuth0();

@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import Auth0ProviderWithHistory from "./components/auth0/auth0provider";
+import App from "./components/App";
+import reportWebVitals from "./Extras/reportWebVitals";
+import * as serviceWorkerRegistration from "./Extras/serviceWorkerRegistration";
+import Auth0ProviderWithHistory from "./components/authentication/auth0provider";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
