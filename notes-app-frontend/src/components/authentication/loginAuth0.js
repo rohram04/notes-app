@@ -1,6 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
-import "./Home.css";
 
 const useLoginAuth0 = () => {
   const { loginWithPopup, loginWithRedirect } = useAuth0();

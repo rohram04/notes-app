@@ -1,6 +1,6 @@
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import React from "react";
-import useLogout from "../logout";
+import useLogout from "../authentication/logout";
 import "./header.css";
 
 export function Header(props) {

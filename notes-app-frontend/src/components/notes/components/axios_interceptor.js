@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import useLogout from "../../logout";
+import useLogout from "../../authentication/logout";
 // import Axios from "axios";
 const axios = require("axios");
 axios.defaults.baseURL = process.env.REACT_APP_AXIOS_BASE_URL;
