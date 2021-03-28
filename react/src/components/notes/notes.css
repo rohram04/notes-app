@@ -172,6 +172,7 @@ button.icon.button {
   text-align: center;
   /* display: grid; */
   justify-content: center;
+  flex-direction: column;
 }
 
 .loader {
@@ -185,6 +186,10 @@ button.icon.button {
 
 .MuiDialog-paper.dialog-paper.border-radius {
   border-radius: 2rem;
+}
+
+.loaderContainer .loaderMsg {
+  margin: 1%;
 }
 
 /* *::webkit-scrollbar {

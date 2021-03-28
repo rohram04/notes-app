@@ -1,4 +1,4 @@
-import { LinearProgress } from "@material-ui/core";
+import { LinearProgress, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import useAxiosIntercepted from "./components/axios_interceptor";
 import NoteEditor from "./components/noteEditor";
@@ -30,6 +30,9 @@ export default function Notes(props) {
   if (!status) {
     return (
       <div className="loaderContainer">
+        <Typography color="secondary" variant="h5" className="loaderMsg">
+          Please wait a moment while server wakes up 🚀...
+        </Typography>
         <LinearProgress className="loader" color="secondary" />
       </div>
     );
