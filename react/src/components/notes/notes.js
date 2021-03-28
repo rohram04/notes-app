@@ -1,7 +1,7 @@
 import { LinearProgress } from "@material-ui/core";
 import React, { useState } from "react";
 import useAxiosIntercepted from "./components/axios_interceptor";
-import NoteEditView from "./components/noteEditor";
+import NoteEditor from "./components/noteEditor";
 import NoteList from "./components/noteList";
 import "./notes.css";
 
@@ -43,7 +43,7 @@ export default function Notes(props) {
         openNote={openNote}
         noteViewOpen={noteInfo.noteViewOpen}
       />
-      <NoteEditView
+      <NoteEditor
         open={noteInfo.noteViewOpen}
         demo={demo}
         noteid={noteInfo.noteid}

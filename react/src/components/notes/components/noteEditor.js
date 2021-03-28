@@ -29,7 +29,7 @@ const NotesTextField = (props) => {
   );
 };
 
-function NoteEditor(props) {
+export default function NoteEditor(props) {
   const height = use100vh();
   const { closeNote, noteid = null, open } = props;
 
@@ -83,6 +83,20 @@ function NoteEditor(props) {
     closeNote();
   };
 
+  const keyPress = ({ key }) => {
+    switch (key) {
+      case "Esc":
+      case "Escape":
+        saveNote(false);
+        break;
+      case "Enter":
+        saveNote();
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
     <Dialog
       fullWidth={true}
@@ -90,6 +104,7 @@ function NoteEditor(props) {
       maxWidth="lg"
       open={open}
       id={note.noteid}
+      onKeyDown={keyPress}
       className="NoteEditor container"
       PaperProps={{
         className: `dialog-paper ${!fullScreen && " border-radius"}`,
@@ -135,8 +150,4 @@ function NoteEditor(props) {
       )}
     </Dialog>
   );
-}
-
-export default function NoteEditView(props) {
-  return <NoteEditor {...props} />;
 }
